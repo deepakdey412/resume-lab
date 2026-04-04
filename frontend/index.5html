@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResumeIQ - Smart Resume Analyzer</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --bg: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Navigation */
+        nav {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: var(--bg-tertiary);
+            color: var(--text);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        /* Auth Page */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .auth-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 3rem;
+            width: 100%;
+            max-width: 450px;
+        }
+        
+        .auth-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        
+        .auth-subtitle {
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        .auth-toggle {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-muted);
+        }
+        
+        .auth-toggle a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .auth-toggle a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Dashboard */
+        .dashboard {
+            padding: 2rem 0;
+        }
+        
+        .page-header {
+            margin-bottom: 2rem;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .page-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+        
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .stat-change {
+            color: var(--success);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        /* Upload Section */
+        .upload-section {
+            padding: 2rem 0;
+        }
+        
+        .upload-area {
+            background: var(--bg-secondary);
+            border: 2px dashed var(--border);
+            border-radius: 1rem;
+            padding: 3rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-area:hover,
+        .upload-area.drag-over {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .upload-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .upload-subtitle {
+            color: var(--text-muted);
+        }
+        
+        /* Resume List */
+        .resume-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .resume-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .resume-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .resume-info h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .resume-meta {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .resume-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        /* Job Matches */
+        .job-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .job-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .job-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+        
+        .job-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .match-score {
+            background: var(--success);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .match-score.medium {
+            background: var(--warning);
+        }
+        
+        .match-score.low {
+            background: var(--danger);
+        }
+        
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .skill-tag {
+            padding: 0.25rem 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: 0.25rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .skill-tag.matched {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+        
+        .skill-tag.missing {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+        
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 2rem; }
+        
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+        
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Alert Messages */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+        
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+        
+        .alert-info {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="mainNav" class="hidden">
+        <div class="container">
+            <div class="nav-content">
+                <a href="#" class="logo">ResumeIQ</a>
+                <ul class="nav-links">
+                    <li><a href="#" onclick="showPage('dashboard')" class="active">Dashboard</a></li>
+                    <li><a href="#" onclick="showPage('upload')">Upload Resume</a></li>
+                    <li><a href="#" onclick="showPage('jobs')">Job Matches</a></li>
+                    <li><a href="#" onclick="showPage('resumes')">My Resumes</a></li>
+                </ul>
+                <div class="user-info">
+                    <div class="user-avatar" onclick="logout()" title="Logout">
+                        <span id="userInitials">U</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Auth Page -->
+    <div id="authPage">
+        <div class="auth-container">
+            <div class="auth-card">
+                <h1 class="auth-title">Welcome to ResumeIQ</h1>
+                <p class="auth-subtitle">Analyze your resume and find the perfect job match</p>
+                
+                <!-- Login Form -->
+                <div id="loginForm">
+                    <form onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" id="loginEmail" required placeholder="Enter your email">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-input" id="loginPassword" required placeholder="Enter your password">
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+                    </form>
+                    <div class="auth-toggle">
+                        Don't have an account? <a href="#" onclick="toggleAuthForm()">Sign up</a>
+                    </div>
+                </div>
+                
+                <!-- Signup Form -->
+                <div id="signupForm" class="hidden">
+                    <form onsubmit="handleSignup(event)">
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-input" id="signupName" required placeholder="Enter your full name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" id="signupEmail" required placeholder="Enter your email">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-input" id="signupPassword" required placeholder="Create a password">
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Sign Up</button>
+                    </form>
+                    <div class="auth-toggle">
+                        Already have an account? <a href="#" onclick="toggleAuthForm()">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="mainApp" class="hidden">
+        <!-- Dashboard Page -->
+        <div id="dashboardPage" class="dashboard">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">Dashboard</h1>
+                    <p class="page-subtitle">Overview of your resume analysis</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Resumes</div>
+                        <div class="stat-value" id="totalResumes">0</div>
+                        <div class="stat-change">↑ All time</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Job Matches</div>
+                        <div class="stat-value" id="totalMatches">0</div>
+                        <div class="stat-change">↑ Available</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Best Match</div>
+                        <div class="stat-value" id="bestMatch">0%</div>
+                        <div class="stat-change">↑ Top score</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Avg Match</div>
+                        <div class="stat-value" id="avgMatch">0%</div>
+                        <div class="stat-change">↑ Overall</div>
+                    </div>
+                </div>
+                
+                <div id="dashboardContent">
+                    <h2 class="mb-3">Recent Analyses</h2>
+                    <div id="recentAnalyses"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload Page -->
+        <div id="uploadPage" class="upload-section hidden">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">Upload Resume</h1>
+                    <p class="page-subtitle">Upload your resume to get instant job match analysis</p>
+                </div>
+                
+                <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                    <div class="upload-icon">📄</div>
+                    <div class="upload-title">Drop your resume here</div>
+                    <div class="upload-subtitle">or click to browse (PDF or DOCX, max 10MB)</div>
+                </div>
+                <input type="file" id="fileInput" accept=".pdf,.docx" style="display: none;" onchange="handleFileUpload(event)">
+                
+                <div id="uploadStatus" class="mt-4"></div>
+            </div>
+        </div>
+        
+        <!-- Job Matches Page -->
+        <div id="jobsPage" class="dashboard hidden">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">Job Matches</h1>
+                    <p class="page-subtitle">Find the best job matches for your resume</p>
+                </div>
+                
+                <div id="jobMatchesContent">
+                    <div class="job-grid" id="jobGrid"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- My Resumes Page -->
+        <div id="resumesPage" class="dashboard hidden">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">My Resumes</h1>
+                    <p class="page-subtitle">Manage all your uploaded resumes</p>
+                </div>
+                
+                <div class="resume-grid" id="resumeGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:8081/api';
+        
+        // State Management
+        let currentUser = null;
+        let authToken = null;
+        
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth();
+            setupDragAndDrop();
+        });
+        
+        // Check if user is authenticated
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            
+            console.log('Checking auth - Token:', token ? 'exists' : 'missing', 'User:', user ? 'exists' : 'missing');
+            
+            if (token && user) {
+                authToken = token;
+                try {
+                    currentUser = JSON.parse(user);
+                    console.log('Current user:', currentUser);
+                    showMainApp();
+                } catch (e) {
+                    console.error('Failed to parse user data:', e);
+                    showAuthPage();
+                }
+            } else {
+                showAuthPage();
+            }
+        }
+        
+        // Toggle between login and signup forms
+        function toggleAuthForm() {
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            
+            loginForm.classList.toggle('hidden');
+            signupForm.classList.toggle('hidden');
+        }
+        
+        // Handle Login
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify({ email: data.email, name: data.fullName }));
+                    authToken = data.token;
+                    currentUser = { email: data.email, name: data.fullName };
+                    showMainApp();
+                } else {
+                    const error = await response.text();
+                    alert('Login failed: ' + error);
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Login failed. Please try again.');
+            }
+        }
+
+        // Handle Signup
+        async function handleSignup(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/signup`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, email, password })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify({ email: data.email, name: data.fullName }));
+                    authToken = data.token;
+                    currentUser = { email: data.email, name: data.fullName };
+                    showMainApp();
+                } else {
+                    const error = await response.text();
+                    alert('Signup failed: ' + error);
+                }
+            } catch (error) {
+                console.error('Signup error:', error);
+                alert('Signup failed. Please try again.');
+            }
+        }
+        
+        // Logout
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            authToken = null;
+            currentUser = null;
+            showAuthPage();
+        }
+        
+        // Show Auth Page
+        function showAuthPage() {
+            document.getElementById('authPage').classList.remove('hidden');
+            document.getElementById('mainApp').classList.add('hidden');
+            document.getElementById('mainNav').classList.add('hidden');
+        }
+
+        // Show Main App
+        function showMainApp() {
+            document.getElementById('authPage').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+            document.getElementById('mainNav').classList.remove('hidden');
+            
+            // Set user initials
+            if (currentUser && currentUser.name) {
+                const initials = currentUser.name.split(' ').map(n => n[0]).join('').toUpperCase();
+                document.getElementById('userInitials').textContent = initials;
+            }
+            
+            // Load dashboard by default
+            showPage('dashboard');
+        }
+        
+        // Show specific page
+        function showPage(pageName) {
+            // Hide all pages
+            const pages = document.querySelectorAll('#mainApp > div');
+            pages.forEach(page => {
+                if (page.classList) {
+                    page.classList.add('hidden');
+                }
+            });
+            
+            // Remove active class from all nav links
+            const navLinks = document.querySelectorAll('.nav-links button');
+            navLinks.forEach(link => {
+                if (link.classList) {
+                    link.classList.remove('active');
+                }
+            });
+            
+            // Show selected page
+            const pageMap = {
+                'dashboard': 'dashboardPage',
+                'upload': 'uploadPage',
+                'jobs': 'jobsPage',
+                'resumes': 'resumesPage'
+            };
+            
+            const pageId = pageMap[pageName];
+            if (pageId) {
+                const pageElement = document.getElementById(pageId);
+                if (pageElement && pageElement.classList) {
+                    pageElement.classList.remove('hidden');
+                }
+                
+                // Set active nav link - find the button that calls this page
+                navLinks.forEach(link => {
+                    const onclick = link.getAttribute('onclick');
+                    if (onclick && onclick.includes(`'${pageName}'`)) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                // Load page data
+                if (pageName === 'dashboard') {
+                    loadDashboard();
+                } else if (pageName === 'jobs') {
+                    loadJobMatches();
+                } else if (pageName === 'resumes') {
+                    loadResumes();
+                }
+            }
+        }
+
+        // Load Dashboard
+        async function loadDashboard() {
+            try {
+                console.log('Loading dashboard with token:', authToken ? 'exists' : 'missing');
+                const response = await fetch(`${API_BASE_URL}/dashboard/my-analyses`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (response.status === 403 || response.status === 401) {
+                    console.error('Authentication failed - logging out');
+                    alert('Your session has expired. Please login again.');
+                    logout();
+                    return;
+                }
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Dashboard data:', data);
+                    updateDashboardStats(data);
+                    displayRecentAnalyses(data.resumes);
+                } else {
+                    console.error('Failed to load dashboard:', response.status);
+                }
+            } catch (error) {
+                console.error('Dashboard error:', error);
+            }
+        }
+        
+        // Update Dashboard Stats
+        function updateDashboardStats(data) {
+            // Handle both old and new response formats
+            const totalResumes = data.totalResumes || (data.resumes ? data.resumes.length : 0);
+            const totalAnalyses = data.totalAnalyses || 0;
+            
+            document.getElementById('totalResumes').textContent = totalResumes;
+            document.getElementById('totalMatches').textContent = totalAnalyses;
+            
+            let bestMatch = 0;
+            let totalMatch = 0;
+            let count = 0;
+            
+            if (data.resumes && data.resumes.length > 0) {
+                data.resumes.forEach(resume => {
+                    if (resume.topMatches && resume.topMatches.length > 0) {
+                        const topScore = resume.topMatches[0].matchPercentage;
+                        if (topScore > bestMatch) bestMatch = topScore;
+                        totalMatch += topScore;
+                        count++;
+                    }
+                });
+            }
+            
+            document.getElementById('bestMatch').textContent = bestMatch.toFixed(0) + '%';
+            document.getElementById('avgMatch').textContent = count > 0 ? (totalMatch / count).toFixed(0) + '%' : '0%';
+        }
+
+        // Display Recent Analyses
+        function displayRecentAnalyses(resumes) {
+            const container = document.getElementById('recentAnalyses');
+            
+            if (!resumes || resumes.length === 0) {
+                container.innerHTML = '<p class="text-center" style="color: var(--text-muted);">No resumes uploaded yet. Upload your first resume to get started!</p>';
+                return;
+            }
+            
+            let html = '<div class="resume-grid">';
+            resumes.forEach(resume => {
+                // Handle both resumeId and id fields
+                const resumeId = resume.resumeId || resume.id;
+                const fileName = resume.fileName;
+                const uploadDate = resume.uploadedAt || resume.uploadDate;
+                const topMatch = resume.topMatches && resume.topMatches.length > 0 ? resume.topMatches[0] : null;
+                const matchScore = topMatch ? topMatch.matchPercentage.toFixed(0) : 'N/A';
+                const jobRole = topMatch ? topMatch.jobRole : 'No matches yet';
+                
+                html += `
+                    <div class="resume-card">
+                        <div class="resume-info">
+                            <h3>${fileName}</h3>
+                            <div class="resume-meta">
+                                Uploaded: ${new Date(uploadDate).toLocaleDateString()}
+                                ${topMatch ? `<br>Best Match: ${jobRole} (${matchScore}%)` : ''}
+                            </div>
+                        </div>
+                        <div class="resume-actions">
+                            <button class="btn btn-secondary" onclick="analyzeResume(${resumeId})">Analyze</button>
+                            <button class="btn btn-danger" onclick="deleteResume(${resumeId})">Delete</button>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            
+            container.innerHTML = html;
+        }
+
+        // Setup Drag and Drop
+        function setupDragAndDrop() {
+            const uploadArea = document.getElementById('uploadArea');
+            
+            if (uploadArea) {
+                uploadArea.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    uploadArea.classList.add('drag-over');
+                });
+                
+                uploadArea.addEventListener('dragleave', () => {
+                    uploadArea.classList.remove('drag-over');
+                });
+                
+                uploadArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    uploadArea.classList.remove('drag-over');
+                    
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        handleFileUpload({ target: { files } });
+                    }
+                });
+            }
+        }
+        
+        // Handle File Upload
+        async function handleFileUpload(event) {
+            const file = event.target.files[0];
+            
+            if (!file) return;
+            
+            // Validate file type
+            const validTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+            if (!validTypes.includes(file.type)) {
+                alert('Please upload a PDF or DOCX file');
+                return;
+            }
+            
+            // Validate file size (10MB)
+            if (file.size > 10 * 1024 * 1024) {
+                alert('File size must be less than 10MB');
+                return;
+            }
+            
+            const statusDiv = document.getElementById('uploadStatus');
+            statusDiv.innerHTML = '<div class="spinner"></div><p class="text-center">Uploading resume...</p>';
+            
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/resumes/upload`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    statusDiv.innerHTML = `
+                        <div class="alert alert-success">
+                            Resume uploaded successfully! Resume ID: ${data.resumeId}
+                        </div>
+                        <button class="btn btn-primary mt-2" onclick="analyzeResume(${data.resumeId})">Analyze Now</button>
+                    `;
+                    
+                    // Reset file input
+                    document.getElementById('fileInput').value = '';
+                } else {
+                    const error = await response.text();
+                    statusDiv.innerHTML = `<div class="alert alert-error">Upload failed: ${error}</div>`;
+                }
+            } catch (error) {
+                console.error('Upload error:', error);
+                statusDiv.innerHTML = '<div class="alert alert-error">Upload failed. Please try again.</div>';
+            }
+        }
+
+        // Analyze Resume
+        async function analyzeResume(resumeId) {
+            // Validate resumeId
+            if (!resumeId || resumeId === 'undefined' || isNaN(resumeId)) {
+                alert('Invalid resume ID. Please refresh the page and try again.');
+                console.error('Invalid resumeId:', resumeId);
+                return;
+            }
+            
+            if (!confirm('Analyze this resume against all job roles?')) return;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/analysis/resume/${resumeId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (response.ok) {
+                    alert('Analysis completed successfully!');
+                    // Reload current page
+                    const currentPage = document.querySelector('#mainApp > div:not(.hidden)').id;
+                    if (currentPage === 'dashboardPage') {
+                        loadDashboard();
+                    } else if (currentPage === 'resumesPage') {
+                        loadResumes();
+                    }
+                } else {
+                    const error = await response.text();
+                    alert('Analysis failed: ' + error);
+                }
+            } catch (error) {
+                console.error('Analysis error:', error);
+                alert('Analysis failed. Please try again.');
+            }
+        }
+        
+        // Delete Resume
+        async function deleteResume(resumeId) {
+            if (!confirm('Are you sure you want to delete this resume?')) return;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/resumes/${resumeId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (response.ok) {
+                    alert('Resume deleted successfully!');
+                    // Reload current page
+                    const currentPage = document.querySelector('#mainApp > div:not(.hidden)').id;
+                    if (currentPage === 'dashboardPage') {
+                        loadDashboard();
+                    } else if (currentPage === 'resumesPage') {
+                        loadResumes();
+                    }
+                } else {
+                    const error = await response.text();
+                    alert('Failed to delete resume: ' + error);
+                }
+            } catch (error) {
+                console.error('Delete error:', error);
+                alert('Failed to delete resume');
+            }
+        }
+
+        // Load Job Matches
+        async function loadJobMatches() {
+            const container = document.getElementById('jobGrid');
+            container.innerHTML = '<div class="spinner"></div>';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/dashboard/my-analyses`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Job matches data:', data); // Debug log
+                    displayJobMatches(data.resumes);
+                } else {
+                    console.error('Failed to load job matches:', response.status);
+                    container.innerHTML = '<p class="text-center" style="color: var(--text-muted);">Failed to load job matches</p>';
+                }
+            } catch (error) {
+                console.error('Job matches error:', error);
+                container.innerHTML = '<p class="text-center" style="color: var(--text-muted);">Failed to load job matches</p>';
+            }
+        }
+        
+        // Display Job Matches
+        function displayJobMatches(resumes) {
+            const container = document.getElementById('jobGrid');
+            
+            console.log('Displaying job matches for resumes:', resumes); // Debug log
+            
+            if (!resumes || resumes.length === 0) {
+                container.innerHTML = '<p class="text-center" style="color: var(--text-muted);">No job matches available. Upload and analyze a resume first!</p>';
+                return;
+            }
+            
+            // Collect all matches from all resumes
+            const allMatches = [];
+            resumes.forEach(resume => {
+                const resumeId = resume.resumeId || resume.id;
+                const fileName = resume.fileName;
+                
+                if (resume.topMatches && resume.topMatches.length > 0) {
+                    resume.topMatches.forEach(match => {
+                        allMatches.push({
+                            ...match,
+                            resumeName: fileName,
+                            resumeId: resumeId
+                        });
+                    });
+                }
+            });
+            
+            console.log('All matches collected:', allMatches); // Debug log
+            
+            // Sort by match percentage
+            allMatches.sort((a, b) => b.matchPercentage - a.matchPercentage);
+            
+            if (allMatches.length === 0) {
+                container.innerHTML = '<p class="text-center" style="color: var(--text-muted);">No job matches found. Analyze your resumes to see matches!</p>';
+                return;
+            }
+            
+            let html = '';
+            allMatches.forEach(match => {
+                const scoreClass = match.matchPercentage >= 70 ? '' : match.matchPercentage >= 50 ? 'medium' : 'low';
+                
+                html += `
+                    <div class="job-card">
+                        <div class="job-header">
+                            <div>
+                                <div class="job-title">${match.jobRole}</div>
+                                <div style="color: var(--text-muted); font-size: 0.9rem;">For: ${match.resumeName}</div>
+                            </div>
+                            <div class="match-score ${scoreClass}">${match.matchPercentage.toFixed(0)}%</div>
+                        </div>
+                        
+                        <div>
+                            <strong style="color: var(--success);">Matched Skills:</strong>
+                            <div class="skills-list">
+                                ${match.matchedSkills.slice(0, 5).map(skill => 
+                                    `<span class="skill-tag matched">${skill}</span>`
+                                ).join('')}
+                                ${match.matchedSkills.length > 5 ? `<span class="skill-tag">+${match.matchedSkills.length - 5} more</span>` : ''}
+                            </div>
+                        </div>
+                        
+                        ${match.missingSkills && match.missingSkills.length > 0 ? `
+                        <div class="mt-2">
+                            <strong style="color: var(--danger);">Missing Skills:</strong>
+                            <div class="skills-list">
+                                ${match.missingSkills.slice(0, 5).map(skill => 
+                                    `<span class="skill-tag missing">${skill}</span>`
+                                ).join('')}
+                                ${match.missingSkills.length > 5 ? `<span class="skill-tag">+${match.missingSkills.length - 5} more</span>` : ''}
+                            </div>
+                        </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Load Resumes
+        async function loadResumes() {
+            const container = document.getElementById('resumeGrid');
+            container.innerHTML = '<div class="spinner"></div>';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/dashboard/all-resumes`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const resumes = await response.json();
+                    console.log('Resumes data:', resumes); // Debug log
+                    displayResumes(resumes);
+                } else {
+                    console.error('Failed to load resumes:', response.status);
+                    container.innerHTML = '<p class="text-center" style="color: var(--text-muted);">Failed to load resumes</p>';
+                }
+            } catch (error) {
+                console.error('Resumes error:', error);
+                container.innerHTML = '<p class="text-center" style="color: var(--text-muted);">Failed to load resumes</p>';
+            }
+        }
+        
+        // Display Resumes
+        function displayResumes(resumes) {
+            const container = document.getElementById('resumeGrid');
+            
+            if (!resumes || resumes.length === 0) {
+                container.innerHTML = '<p class="text-center" style="color: var(--text-muted);">No resumes uploaded yet. Go to Upload page to add your first resume!</p>';
+                return;
+            }
+            
+            let html = '';
+            resumes.forEach(resume => {
+                // Handle both resumeId and id fields
+                const resumeId = resume.resumeId || resume.id;
+                const fileName = resume.fileName;
+                const uploadDate = resume.uploadedAt || resume.uploadDate;
+                const topMatch = resume.topMatches && resume.topMatches.length > 0 ? resume.topMatches[0] : null;
+                const matchScore = topMatch ? topMatch.matchPercentage.toFixed(0) : 'N/A';
+                const jobRole = topMatch ? topMatch.jobRole : 'No matches yet';
+                
+                html += `
+                    <div class="resume-card">
+                        <div class="resume-info">
+                            <h3>${fileName}</h3>
+                            <div class="resume-meta">
+                                <strong>Uploaded:</strong> ${new Date(uploadDate).toLocaleDateString()}<br>
+                                ${topMatch ? `<strong>Best Match:</strong> ${jobRole} (${matchScore}%)` : '<em>Not analyzed yet</em>'}
+                            </div>
+                        </div>
+                        <div class="resume-actions">
+                            <button class="btn btn-primary" onclick="analyzeResume(${resumeId})">
+                                ${topMatch ? 'Re-analyze' : 'Analyze'}
+                            </button>
+                            <button class="btn btn-danger" onclick="deleteResume(${resumeId})">Delete</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
