@@ -1,0 +1,124 @@
+# ResumeLab - Git Ignore File
+
+# IDE & Editor Files
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Backend (Java/Spring Boot/Maven)
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+logs/
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Spring Boot
+spring-boot-*.log
+application-*.properties
+!application.properties
+
+# Frontend (React/Node.js)
+
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Build output
+dist/
+dist-ssr/
+build/
+*.local
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploaded Files (User Data)
+uploads/
+backend/uploads/
+*.pdf
+*.docx
+*.doc
+
+# OS Generated Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Temporary Files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~.nib
+
+# Security & Sensitive Data
+*.key
+*.pem
+*.p12
+*.jks
+secrets/
+credentials/
+
+# Test Coverage
+coverage/
+*.lcov
+.nyc_output/
+
+
