@@ -1,16 +1,10 @@
 package com.resumeanalyzer.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "resume_analyses")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class ResumeAnalysis {
     
     @Id
@@ -43,5 +37,84 @@ public class ResumeAnalysis {
     @PrePersist
     protected void onCreate() {
         analyzedAt = LocalDateTime.now();
+    }
+
+    // Constructors
+    public ResumeAnalysis() {}
+
+    public ResumeAnalysis(Long id, Resume resume, JobRole jobRole, Double matchScore, String matchedSkills, String missingSkills, String suggestions, LocalDateTime analyzedAt) {
+        this.id = id;
+        this.resume = resume;
+        this.jobRole = jobRole;
+        this.matchScore = matchScore;
+        this.matchedSkills = matchedSkills;
+        this.missingSkills = missingSkills;
+        this.suggestions = suggestions;
+        this.analyzedAt = analyzedAt;
+    }
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Resume getResume() {
+        return resume;
+    }
+
+    public void setResume(Resume resume) {
+        this.resume = resume;
+    }
+
+    public JobRole getJobRole() {
+        return jobRole;
+    }
+
+    public void setJobRole(JobRole jobRole) {
+        this.jobRole = jobRole;
+    }
+
+    public Double getMatchScore() {
+        return matchScore;
+    }
+
+    public void setMatchScore(Double matchScore) {
+        this.matchScore = matchScore;
+    }
+
+    public String getMatchedSkills() {
+        return matchedSkills;
+    }
+
+    public void setMatchedSkills(String matchedSkills) {
+        this.matchedSkills = matchedSkills;
+    }
+
+    public String getMissingSkills() {
+        return missingSkills;
+    }
+
+    public void setMissingSkills(String missingSkills) {
+        this.missingSkills = missingSkills;
+    }
+
+    public String getSuggestions() {
+        return suggestions;
+    }
+
+    public void setSuggestions(String suggestions) {
+        this.suggestions = suggestions;
+    }
+
+    public LocalDateTime getAnalyzedAt() {
+        return analyzedAt;
+    }
+
+    public void setAnalyzedAt(LocalDateTime analyzedAt) {
+        this.analyzedAt = analyzedAt;
     }
 }

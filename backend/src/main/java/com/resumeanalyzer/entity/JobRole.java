@@ -1,17 +1,11 @@
 package com.resumeanalyzer.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "job_roles")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class JobRole {
     
     @Id
@@ -36,5 +30,66 @@ public class JobRole {
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
+    }
+
+    // Constructors
+    public JobRole() {}
+
+    public JobRole(Long id, String roleName, String description, LocalDateTime createdAt, List<JobSkill> jobSkills, List<ResumeAnalysis> analyses) {
+        this.id = id;
+        this.roleName = roleName;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.jobSkills = jobSkills;
+        this.analyses = analyses;
+    }
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public List<JobSkill> getJobSkills() {
+        return jobSkills;
+    }
+
+    public void setJobSkills(List<JobSkill> jobSkills) {
+        this.jobSkills = jobSkills;
+    }
+
+    public List<ResumeAnalysis> getAnalyses() {
+        return analyses;
+    }
+
+    public void setAnalyses(List<ResumeAnalysis> analyses) {
+        this.analyses = analyses;
     }
 }

@@ -12,11 +12,11 @@
         <relativePath/>
     </parent>
     
-    <groupId>com.resumeanalyzer</groupId>
-    <artifactId>smart-resume-analyzer</artifactId>
+    <groupId>com.resumelab</groupId>
+    <artifactId>resumelab</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>smart-resume-analyzer</name>
-    <description>Smart Resume Analyzer Backend</description>
+    <name>resumelab</name>
+    <description>ResumeLab - AI-Powered Resume Analysis Platform</description>
     
     <properties>
         <java.version>17</java.version>
@@ -125,6 +125,13 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.3.0</version>
+        </dependency>
+        
+        <!-- OpenPDF for PDF Generation -->
+        <dependency>
+            <groupId>com.github.librepdf</groupId>
+            <artifactId>openpdf</artifactId>
+            <version>1.3.30</version>
         </dependency>
     </dependencies>
     
