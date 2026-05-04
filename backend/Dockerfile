@@ -1,12 +1,3 @@
-#FROM maven:3.9.9-eclipse-temurin-17
-#
-#WORKDIR /app
-#
-#COPY . .
-#
-#RUN mvn clean install -DskipTests
-#
-#CMD ["sh", "-c", "java -jar target/resumelab-0.0.1-SNAPSHOT.jar"]
 
 # Stage 1: Build
 FROM maven:3.9.6-eclipse-temurin-17 AS build

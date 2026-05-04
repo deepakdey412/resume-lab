@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 //const API_BASE_URL = 'http://localhost:8081';
-const API_BASE_URL = 'https://resume-analyzer-c8u6.onrender.com';
+// const API_BASE_URL = 'https://resume-analyzer-c8u6.onrender.com';
+const API_BASE_URL = 'https://resume-lab-ful6.onrender.com';
+
 
 // Create axios instance
 const axiosInstance = axios.create({
